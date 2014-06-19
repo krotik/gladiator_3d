@@ -1,0 +1,87 @@
+<html>
+<head>
+    <script src="../../src/gladiator.js"></script>
+    <style>
+
+        .ge-mainscreen {
+            border: solid 1px;
+        }        
+
+        .ge-minimap {
+            position: relative;
+        }
+
+        .ge-minimap canvas {
+            border: solid 1px;            
+        }
+
+    </style>
+</head>
+<body>
+    <div class="ge-debug" id="debug"></div>
+    <canvas class="ge-mainscreen" id="screen"></canvas>    
+    <div class="ge-minimap" id="minimap"></div>
+
+<script>
+
+var map = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+  [1,-1, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0, 2, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0, 3, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+];
+
+var c = new ge.MainController("screen", "minimap", {
+    wallTextureAtlas   : "walls.png",
+    wallTextureMapping : {
+        "2" : [0, 64], // x and y offset on texture atlas
+        "3" : [0, 128]
+    },
+    floorCeilingTextureAtlas : "walls.png",
+    floorCeilingTextureMapping : {
+        "-1" : [[64,128], [0,192]] // x and y offset for floor and ceiling on texture atlas
+    },
+    ceilingImage : "sky.jpg"
+}, "debug");
+
+c.addSprite({
+    id          : "table", 
+    x           : 10, 
+    y           : 7,
+    spriteAtlas : "tablechairs.png"
+});
+
+c.addSprite({
+    id              : "guard", 
+    x               : 4, 
+    y               : 6,
+    spriteAtlas     : "guard.png",
+    isMoving        : true,
+    drawOnMinimap   : true,
+    minimapColor    : "red",
+    speed           : 1
+});
+
+c.addSprite({
+    id          : "table2", 
+    x           : 2, 
+    y           : 2,
+    spriteAtlas : "tablechairs.png"
+});
+
+c.start(map);
+
+</script>
+</body>
+</html>

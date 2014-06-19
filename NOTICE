@@ -1,0 +1,16 @@
+Gladiator 3D engine - JavaScript ray casting engine for pseudo 3D games
+Copyright (c) 2014 Matthias Ladkau
+
+This software library is based on:
+
+Creating pseudo 3D games with HTML 5 canvas and raycasting tutorial
+by Jacob Seidelin
+http://dev.opera.com/articles/view/creating-pseudo-3d-games-with-html-5-can-1/
+
+Ray-Casting Tutorial For Game Development And Other Purposes
+by F. Permadi
+http://www.permadi.com/tutorial/raycast/index.html
+
+Lode's Raycasting Tutorial
+by Lode Vandevenne
+http://lodev.org/cgtutor/index.html
