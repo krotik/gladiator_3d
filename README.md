@@ -2,6 +2,8 @@
 
 JavaScript ray casting engine for pseudo 3D games. This implementation is not bound to any library (i.e. works with or without Prototype / JQuery) and should work with all recent browsers which support the canvas element.
 
+![Screenshot Game Example](https://github.com/krotik/gladiator_3d/blob/master/examples/game_demo/img/screenshot.png?raw=true)
+
 ## Author
 
 Gladiator 3D was written by [Matthias Ladkau](http://www.ladkau.de).
